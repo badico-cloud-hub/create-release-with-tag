@@ -15,7 +15,7 @@ Action for create release with tag
 
     # Tag name for append in commit
     # is optional
-    append_tag: ''
+    append-tag: ''
 
     # Token with credentials for repository
     # is required
