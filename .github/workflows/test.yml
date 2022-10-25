@@ -10,16 +10,16 @@ on:
 env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 jobs:
-  verify:
+  create-release:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: verify if rebased
-        id: verify
+      - name: create release
+        id: release
         uses: ./
         with:
           sha: ${{ github.sha }}
           tag: v1
-          append_tag: PROD
+          append-tag: PROD
           gh-token: ${{ env.GH_TOKEN }}
