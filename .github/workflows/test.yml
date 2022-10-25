@@ -1,24 +1,37 @@
 name: test-of-action
 
-on:
-  pull_request:
-    types:
-      - opened
-      - edited
-      - synchronize
+on: 
+  workflow_dispatch:
+    inputs:
+      name:
+        type: choice
+        required: true
+        default: 'prod'
+        description: Deploy
+        options: 
+        - prod
+        - hml
+      tag:
+        description: Version
+        required: true
+        type: string
+permissions: write-all
 
 env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 jobs:
-  verify:
+  create-release:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: verify if rebased
-        id: verify
+        with:
+          fetch-depth: 0
+      - name: create release
+        id: release
         uses: ./
         with:
-          sha: ${{ github.sha }}
+          branch: ${{ github.ref_name }}
           tag: v1
+          append-tag: PROD
           gh-token: ${{ env.GH_TOKEN }}

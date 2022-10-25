@@ -5,9 +5,9 @@ Action for create release with tag
 ```
 - uses: badico-cloud-hub/create-release-with-tag@v1
   with:
-    # Commit hash for release in repository
-    # is required
-    sha: ''
+    # Branch for release in repository
+    # Default is ${{github.event.repository.default_branch}}
+    branch: ''
     
     # Tag name for release
     # is required
@@ -15,7 +15,7 @@ Action for create release with tag
 
     # Tag name for append in commit
     # is optional
-    append_tag: ''
+    append-tag: ''
 
     # Token with credentials for repository
     # is required

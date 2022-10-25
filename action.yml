@@ -4,16 +4,17 @@ branding:
   icon: 'arrow-up-circle'
   color: 'black'
 inputs:
-  sha:
-    description: 'Commit hash for release in repository'
-    required: true
+  branch:
+    description: 'Branch for release in repository'
+    required: false
+    default: ${{github.event.repository.default_branch}}
   tag:
     description: 'Tag name for release'
     required: true
   gh-token:
     description: 'Token with credentials for repository'
     required: true
-  append_tag:
+  append-tag:
     description: 'Tag name for append in commit'
     required: false
 
