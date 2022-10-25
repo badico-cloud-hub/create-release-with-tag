@@ -1,0 +1,30 @@
+{
+    "name": "create-release-with-tag",
+    "version": "1.0.0",
+    "description": "Action for Create release with tag",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "dev": "npm run build && node dist/index.js",
+      "build": "ncc build index.js --license LICENSE"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/badico-cloud-hub/create-release-with-tag.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/badico-cloud-hub/create-release-with-tag/issues"
+    },
+    "homepage": "https://github.com/badico-cloud-hub/create-release-with-tag#readme",
+    "dependencies": {
+      "@actions/core": "^1.10.0",
+      "@actions/exec": "^1.1.1",
+      "@actions/github": "^5.1.1"
+    },
+    "devDependencies": {
+      "@vercel/ncc": "^0.34.0"
+    }
+  }
