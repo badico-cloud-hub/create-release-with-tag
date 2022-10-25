@@ -4,10 +4,10 @@ branding:
   icon: 'arrow-up-circle'
   color: 'black'
 inputs:
-  sha:
-    description: 'Commit hash for release in repository'
+  branch:
+    description: 'Branch for release in repository'
     required: false
-    default: ${{github.sha}}
+    default: ${{github.event.repository.default_branch}}
   tag:
     description: 'Tag name for release'
     required: true
