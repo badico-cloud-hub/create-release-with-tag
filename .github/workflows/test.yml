@@ -1,0 +1,22 @@
+name: test-of-action
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: verify if rebased
+        id: verify
+        uses: ./
+        with:
+          sha: ${{ github.sha }}
+          tag: v1
+          gh-token: ${{ env.GH_TOKEN }}
