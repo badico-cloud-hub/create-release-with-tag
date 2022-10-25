@@ -13,7 +13,7 @@ inputs:
   gh-token:
     description: 'Token with credentials for repository'
     required: true
-  append_tag:
+  append-tag:
     description: 'Tag name for append in commit'
     required: false
 
