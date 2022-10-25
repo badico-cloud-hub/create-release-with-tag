@@ -21,4 +21,5 @@ jobs:
         with:
           sha: ${{ github.sha }}
           tag: v1
+          append_tag: PROD
           gh-token: ${{ env.GH_TOKEN }}
