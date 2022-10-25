@@ -1,0 +1,22 @@
+name: 'Create Release With Tag'
+description: 'Action for Create release with tag'
+branding:
+  icon: 'arrow-up-circle'
+  color: 'black'
+inputs:
+  sha:
+    description: 'Commit hash for release in repository'
+    required: true
+  tag:
+    description: 'Tag name for release'
+    required: true
+  gh-token:
+    description: 'Token with credentials for repository'
+    required: true
+  append_tag:
+    description: 'Tag name for append in commit'
+    required: false
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
