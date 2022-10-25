@@ -6,7 +6,8 @@ branding:
 inputs:
   sha:
     description: 'Commit hash for release in repository'
-    required: true
+    required: false
+    default: ${{github.sha}}
   tag:
     description: 'Tag name for release'
     required: true
