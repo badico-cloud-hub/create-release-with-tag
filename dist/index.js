@@ -10993,7 +10993,14 @@ async function run(){
         console.log('gh-token: ',ghToken);
         console.log('append-tag: ',appendTag);
         
-        const release = command.exec('gh',['release','create',`${tag}`,`--title=${tag}`,`--target=${branch}`,'--generate-notes'])
+        const headCommit = await octokit.request(`GET /repos/{owner}/{repo}/commits/${branch}`, {
+          owner: github.context.repo.owner,
+          repo: github.context.repo.repo
+        })
+        const commit = headCommit.data.sha
+        console.log('commit actual: ',commit)
+        
+        const release = await command.exec('gh',['release','create',`${tag}`,`--title=${tag}`,`--target=${commit}`,'--generate-notes'])
         console.log('release result: ', release)
     } catch (error) {
       core.setFailed(error.message);
