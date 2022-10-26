@@ -11002,6 +11002,21 @@ async function run(){
         
         const release = await command.exec('gh',['release','create',`${tag}`,`--title=${tag}`,`--target=${commit}`,'--generate-notes'])
         console.log('release result: ', release)
+
+        const stageTag = await octokit.request('POST /repos/{owner}/{repo}/git/tags', {
+          owner: github.context.repo.owner,
+          repo: github.context.repo.repo,
+          tag: appendTag.toUpperCase(),
+          message: 'Tag for actual commit the stage',
+          object: commit,
+          type: 'commit',
+          tagger: {
+            name: 'wellington gadelha',
+            email: 'contato.informeai@gmail.com'
+          }
+        })
+
+        console.log('stageTag: ',stageTag)
     } catch (error) {
       core.setFailed(error.message);
     }
