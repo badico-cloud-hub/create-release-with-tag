@@ -11,6 +11,10 @@ inputs:
   tag:
     description: 'Tag name for release'
     required: true
+  just-tag:
+    description: 'Just set tag'
+    required: false
+    default: false
   gh-token:
     description: 'Token with credentials for repository'
     required: true
