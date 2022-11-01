@@ -40,7 +40,7 @@ async function run(){
         // })
         const userName = await command.exec('git',['config','user.name',`${github.context.actor}`]);
         const userEmail = await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
-        const stageTag = await command.exec('git',['tag','-fa',`${appendTag.toUpperCase()}`,`${commit}`,`add tag - ${appendTag.toUpperCase()} to commit - ${commit}`]);
+        const stageTag = await command.exec('git',['tag','-f','-a',`${appendTag.toUpperCase()}`,`${commit}`,`add tag - ${appendTag.toUpperCase()} to commit - ${commit}`]);
         const forcePush = await command.exec('git',['push','--force','origin',`${appendTag.toUpperCase()}`]);
         console.log('userName: ',userName)
         console.log('userEmail: ',userEmail)
