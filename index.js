@@ -23,17 +23,21 @@ async function run(){
         const ghToken = core.getInput('gh-token');
         const appendTag = core.getInput('append-tag');
         const upper = core.getBooleanInput('upper');
+        const justTag = core.getBooleanInput('just-tag');
         const octokit = github.getOctokit(ghToken);
 
-        await verifyInputs(core,branch,tag,ghToken);
         console.log('Get Commit hash')
         const headCommit = await octokit.request(`GET /repos/{owner}/{repo}/commits/${branch}`, {
           owner: github.context.repo.owner,
           repo: github.context.repo.repo
         })
         const commit = headCommit.data.sha
-        console.log('Create Release')
-        await command.exec('gh',['release','create',`${tag}`,`--title=${tag}`,`--target=${commit}`,'--generate-notes'])
+        if(!justTag){
+          await verifyInputs(core,branch,tag,ghToken);
+          console.log('Create Release')
+          await command.exec('gh',['release','create',`${tag}`,`--title=${tag}`,`--target=${commit}`,'--generate-notes'])
+
+        }
         if(appendTag.length){
           console.log('Append Tag to commit')
           const stageTag = upper ? appendTag.toUpperCase() : appendTag
