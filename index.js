@@ -45,7 +45,7 @@ async function run(){
         console.log('userEmail: ',userEmail)
         const stageTag = await command.exec('git',['tag','-a',`${appendTag.toUpperCase()}`,`${commit}`,`-m=${messageTag}`]);
         console.log('stageTag: ',stageTag)
-        const setOrigin = await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.repo}.git`]);
+        const setOrigin = await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`]);
         console.log('setOrigin: ',setOrigin)
         const forcePush = await command.exec('git',['push','--force','origin',`${appendTag.toUpperCase()}`]);
         console.log('forcePush: ',forcePush)
