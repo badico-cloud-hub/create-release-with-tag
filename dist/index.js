@@ -11017,14 +11017,14 @@ async function run(){
         // })
         const messageTag = `add tag - ${appendTag.toUpperCase()} to commit - ${commit}`
         const userName = await command.exec('git',['config','user.name',`${github.context.actor}`]);
-        const userEmail = await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
-        const stageTag = await command.exec('git',['tag','-f','-a',`${appendTag.toUpperCase()}`,`${commit}`,`${messageTag}`]);
-        const setOrigin = await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.repo}.git`]);
-        const forcePush = await command.exec('git',['push','--force','origin',`${appendTag.toUpperCase()}`]);
         console.log('userName: ',userName)
+        const userEmail = await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
         console.log('userEmail: ',userEmail)
+        const stageTag = await command.exec('git',['tag','-f','-a',`${appendTag.toUpperCase()}`,`${commit}`,`${messageTag}`]);
         console.log('stageTag: ',stageTag)
+        const setOrigin = await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.repo}.git`]);
         console.log('setOrigin: ',setOrigin)
+        const forcePush = await command.exec('git',['push','--force','origin',`${appendTag.toUpperCase()}`]);
         console.log('forcePush: ',forcePush)
     } catch (error) {
       core.setFailed(error.message);
