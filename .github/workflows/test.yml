@@ -32,6 +32,7 @@ jobs:
         uses: ./
         with:
           branch: ${{ github.ref_name }}
-          tag: v1
-          append-tag: PROD
+          tag: ${{inputs.tag}}
+          append-tag: ${{inputs.name}}
+          upper: true
           gh-token: ${{ env.GH_TOKEN }}

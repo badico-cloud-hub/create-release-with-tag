@@ -10979,19 +10979,49 @@ const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 const command = __nccwpck_require__(1514);
 
+async function verifyInputs(core,branch, tag, ghToken){
+  console.log('Verify inputs')
+  if(!branch.length) {
+      core.setFailed('Branch invalid')
+  }
+  if(!tag.length) {
+      core.setFailed('Tag invalid')
+  }
+  if(!ghToken.length) {
+      core.setFailed('Token is required')
+  }
+  return
+}
 
 async function run(){
     try {
-        const sha = core.getInput('sha');
+        const branch = core.getInput('branch');
         const tag = core.getInput('tag');
         const ghToken = core.getInput('gh-token');
         const appendTag = core.getInput('append-tag');
+        const upper = core.getBooleanInput('upper');
+        const octokit = github.getOctokit(ghToken);
 
-        console.log('sha: ',sha);
-        console.log('tag: ',tag);
-        console.log('gh-token: ',ghToken);
-        console.log('append-tag: ',appendTag);
-        
+        await verifyInputs(core,branch,tag,ghToken);
+        console.log('Get Commit hash')
+        const headCommit = await octokit.request(`GET /repos/{owner}/{repo}/commits/${branch}`, {
+          owner: github.context.repo.owner,
+          repo: github.context.repo.repo
+        })
+        const commit = headCommit.data.sha
+        console.log('Create Release')
+        await command.exec('gh',['release','create',`${tag}`,`--title=${tag}`,`--target=${commit}`,'--generate-notes'])
+        if(appendTag.length){
+          console.log('Append Tag to commit')
+          const stageTag = upper ? appendTag.toUpperCase() : appendTag
+
+          const messageTag = `add tag - ${stageTag} to commit - ${commit}`
+          await command.exec('git',['config','user.name',`${github.context.actor}`]);
+          await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
+          await command.exec('git',['tag','-a',`${stageTag}`,`${commit}`,`-m=${messageTag}`,'-f']);
+          await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`]);
+          await command.exec('git',['push','--force','origin',`${stageTag}`]);
+        }
     } catch (error) {
       core.setFailed(error.message);
     }

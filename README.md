@@ -17,6 +17,10 @@ Action for create release with tag
     # is optional
     append-tag: ''
 
+    # Set append-tag name to uppercase
+    # is optional
+    upper: ''
+
     # Token with credentials for repository
     # is required
     gh-token: ''
