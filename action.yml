@@ -17,6 +17,10 @@ inputs:
   append-tag:
     description: 'Tag name for append in commit'
     required: false
+  upper:
+    description: 'Set append-tag name to uppercase'
+    required: false
+    default: false
 
 runs:
   using: 'node16'
