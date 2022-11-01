@@ -38,9 +38,10 @@ async function run(){
         //     email: 'contato.informeai@gmail.com'
         //   }
         // })
+        const messageTag = `add tag - ${appendTag.toUpperCase()} to commit - ${commit}`
         const userName = await command.exec('git',['config','user.name',`${github.context.actor}`]);
         const userEmail = await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
-        const stageTag = await command.exec('git',['tag','-f','-a',`${appendTag.toUpperCase()}`,`${commit}`,`add tag - ${appendTag.toUpperCase()} to commit - ${commit}`]);
+        const stageTag = await command.exec('git',['tag','-f','-a',`${appendTag.toUpperCase()}`,`${commit}`,`${messageTag}`]);
         const setOrigin = await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.repo}.git`]);
         const forcePush = await command.exec('git',['push','--force','origin',`${appendTag.toUpperCase()}`]);
         console.log('userName: ',userName)
