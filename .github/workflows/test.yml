@@ -33,6 +33,7 @@ jobs:
         with:
           branch: ${{ github.ref_name }}
           tag: ${{inputs.tag}}
+          just-tag: true
           append-tag: ${{inputs.name}}
           upper: true
           gh-token: ${{ env.GH_TOKEN }}
