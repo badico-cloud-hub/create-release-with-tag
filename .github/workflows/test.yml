@@ -33,5 +33,4 @@ jobs:
         with:
           branch: ${{ github.ref_name }}
           tag: ${{inputs.tag}}
-          append-tag: ${{inputs.name}}
           gh-token: ${{ env.GH_TOKEN }}
