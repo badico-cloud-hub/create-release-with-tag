@@ -13,6 +13,11 @@ Action for create release with tag
     # is required
     tag: ''
 
+    # Just set tag
+    # is optional
+    # Default is false
+    just-tag: ''
+
     # Tag name for append in commit
     # is optional
     append-tag: ''
