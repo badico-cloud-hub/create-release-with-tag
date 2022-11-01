@@ -43,7 +43,7 @@ async function run(){
         console.log('userName: ',userName)
         const userEmail = await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
         console.log('userEmail: ',userEmail)
-        const stageTag = await command.exec('git',['tag','-f','-a',`${appendTag.toUpperCase()}`,`${commit}`]);
+        const stageTag = await command.exec('git',['tag','-a',`${appendTag.toUpperCase()}`,`${commit}`,`-m=${messageTag}`]);
         console.log('stageTag: ',stageTag)
         const setOrigin = await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.repo}.git`]);
         console.log('setOrigin: ',setOrigin)
