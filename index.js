@@ -24,7 +24,6 @@ async function run(){
         const appendTag = core.getInput('append-tag');
         const upper = core.getBooleanInput('upper');
         const justTag = core.getBooleanInput('just-tag');
-        console.log('token: ',ghToken)
         const octokit = github.getOctokit(ghToken);
 
         console.log('Get Commit hash')
