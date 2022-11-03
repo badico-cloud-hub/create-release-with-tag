@@ -11001,7 +11001,9 @@ async function run(){
         const appendTag = core.getInput('append-tag');
         const upper = core.getBooleanInput('upper');
         const justTag = core.getBooleanInput('just-tag');
-        const octokit = github.getOctokit(ghToken);
+        const token = process.env('GITHUB_TOKEN');
+        console.log('token: ',token)
+        const octokit = github.getOctokit(token);
 
         console.log('Get Commit hash')
         const headCommit = await octokit.request(`GET /repos/{owner}/{repo}/commits/${branch}`, {
@@ -11009,17 +11011,6 @@ async function run(){
           repo: github.context.repo.repo
         })
         const commit = headCommit.data.sha
-        // if(justTag){
-        //   const releases = await octokit.request('GET /repos/{owner}/{repo}/releases',{
-        //     owner: github.context.repo.owner,
-        //     repo: github.context.repo.repo
-        //   });
-        //   const containRelease = releases.data.find((r)=> r.tag_name == branch)
-        //   if(containRelease) {
-        //     await command.exec('gh',['release','delete',`${containRelease.tag_name}`,'--cleanup-tag','-y']);
-        //     await command.exec('gh',['release','create',`${containRelease.tag_name}`,`--title=${containRelease.tag_name}`,`--target=${commit}`,'--generate-notes'])
-        //   }
-        // }
         if(!justTag){
           await verifyInputs(core,branch,tag,ghToken);
           console.log('Create Release')
@@ -11034,8 +11025,7 @@ async function run(){
           const messageTag = `add tag - ${stageTag} to commit - ${commit}`
           await command.exec('git',['config','user.name',`${github.context.actor}`]);
           await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
-          await command.exec('git',['config','user.password',`${ghToken}`]);
-          await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`]);
+          await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${token}@github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`]);
           await command.exec('git',['tag','-a',`${stageTag}`,`${commit}`,`-m=${messageTag}`,'-f']);
           await command.exec('git',['push','--force','origin',`${stageTag}`]);
           await octokit.request(``)
