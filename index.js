@@ -49,7 +49,7 @@ async function run(){
           if(justTag) await command.exec('git',['push','--delete', 'origin',`${stageTag}`,'-f']);
           await command.exec('git',['tag','-a',`${stageTag}`,`${commit}`,`-m=${messageTag}`,'-f']);
           if(justTag){
-            await command.exec('git',['push','origin',`${stageTag}`]);
+            await command.exec('git',['push','--force','origin',`${stageTag}`]);
           }else{
             await command.exec('git',['push','--force','origin',`${stageTag}`]);
           }
