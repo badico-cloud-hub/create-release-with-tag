@@ -1,5 +1,6 @@
 # Create Release With Tag
 Action for create release with tag
+
 Add to GITHUB_TOKEN with workflow credentials.
 Add the checkout action first. Ex:
 ```
