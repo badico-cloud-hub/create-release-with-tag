@@ -39,9 +39,16 @@ async function run(){
 
         // }
         await verifyInputs(core,branch,tag,ghToken);
-        const containsRelease = await command.exec('gh',['release','view',`${tag}`]);
-        console.log('contains release: ',containsRelease)
-        if(containsRelease.includes('not found')) await command.exec('gh',['release','delete',`${tag}`,'--cleanup-tag','-y']);
+        if(justTag){
+          const releases = await octokit.request('GET /repos/{owner}/{repo}/releases',{
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo
+          });
+          const containRelease = releases.data.find((r)=> r.tag_name == branch)
+          console.log('containRelease', containRelease)
+          if(containRelease) await command.exec('gh',['release','delete',`${containRelease.tag_name}`,'--cleanup-tag','-y']);
+
+        }
         console.log('Create Release')
         await command.exec('gh',['release','create',`${tag}`,`--title=${tag}`,`--target=${commit}`,'--generate-notes'])
 
