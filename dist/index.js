@@ -11001,7 +11001,7 @@ async function run(){
         const appendTag = core.getInput('append-tag');
         const upper = core.getBooleanInput('upper');
         const justTag = core.getBooleanInput('just-tag');
-        const token = process.env('GITHUB_TOKEN');
+        const token = process.env.GITHUB_TOKEN;
         console.log('token: ',token)
         const octokit = github.getOctokit(token);
 
