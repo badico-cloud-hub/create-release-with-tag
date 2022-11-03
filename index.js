@@ -24,9 +24,8 @@ async function run(){
         const appendTag = core.getInput('append-tag');
         const upper = core.getBooleanInput('upper');
         const justTag = core.getBooleanInput('just-tag');
-        const token = process.env.GITHUB_TOKEN;
-        console.log('token: ',token)
-        const octokit = github.getOctokit(token);
+        console.log('token: ',ghToken)
+        const octokit = github.getOctokit(ghToken);
 
         console.log('Get Commit hash')
         const headCommit = await octokit.request(`GET /repos/{owner}/{repo}/commits/${branch}`, {
@@ -48,7 +47,7 @@ async function run(){
           const messageTag = `add tag - ${stageTag} to commit - ${commit}`
           await command.exec('git',['config','user.name',`${github.context.actor}`]);
           await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
-          await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${token}@github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`]);
+          await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`]);
           await command.exec('git',['tag','-a',`${stageTag}`,`${commit}`,`-m=${messageTag}`,'-f']);
           await command.exec('git',['push','--force','origin',`${stageTag}`]);
           await octokit.request(``)

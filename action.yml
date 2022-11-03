@@ -18,6 +18,7 @@ inputs:
   gh-token:
     description: 'Token with credentials for repository'
     required: true
+    default: ${{ github.token }}
   append-tag:
     description: 'Tag name for append in commit'
     required: false
