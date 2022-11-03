@@ -32,20 +32,17 @@ async function run(){
           repo: github.context.repo.repo
         })
         const commit = headCommit.data.sha
-        if(justTag){
-          const releases = await octokit.request('GET /repos/{owner}/{repo}/releases',{
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo
-          });
-          const ref_name = github.context.ref
-          console.log('ref_name: ',ref_name);
-          const containRelease = releases.data.find((r)=> r.tag_name == branch)
-          console.log('containRelease', containRelease)
-          if(containRelease) {
-            await command.exec('gh',['release','delete',`${containRelease.tag_name}`,'--cleanup-tag','-y']);
-            await command.exec('gh',['release','create',`${containRelease.tag_name}`,`--title=${containRelease.tag_name}`,`--target=${commit}`,'--generate-notes'])
-          }
-        }
+        // if(justTag){
+        //   const releases = await octokit.request('GET /repos/{owner}/{repo}/releases',{
+        //     owner: github.context.repo.owner,
+        //     repo: github.context.repo.repo
+        //   });
+        //   const containRelease = releases.data.find((r)=> r.tag_name == branch)
+        //   if(containRelease) {
+        //     await command.exec('gh',['release','delete',`${containRelease.tag_name}`,'--cleanup-tag','-y']);
+        //     await command.exec('gh',['release','create',`${containRelease.tag_name}`,`--title=${containRelease.tag_name}`,`--target=${commit}`,'--generate-notes'])
+        //   }
+        // }
         if(!justTag){
           await verifyInputs(core,branch,tag,ghToken);
           console.log('Create Release')
