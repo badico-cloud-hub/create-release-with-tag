@@ -11023,9 +11023,13 @@ async function run(){
           await command.exec('git',['config','user.name',`${github.context.actor}`]);
           await command.exec('git',['config','user.email',`${github.context.actor}@users.noreply.github.com`]);
           await command.exec('git',['remote','set-url','origin',`https://${github.context.actor}:${ghToken}@github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`]);
-          if(justTag) await command.exec('git',['push','--delete', 'origin',`${stageTag}`,'-f'])
+          if(justTag) await command.exec('git',['push','--delete', 'origin',`${stageTag}`,'-f']);
           await command.exec('git',['tag','-a',`${stageTag}`,`${commit}`,`-m=${messageTag}`,'-f']);
-          await command.exec('git',['push','--force','origin',`${stageTag}`]);
+          if(justTag){
+            await command.exec('git',['push','origin',`${stageTag}`]);
+          }else{
+            await command.exec('git',['push','--force','origin',`${stageTag}`]);
+          }
         }
     } catch (error) {
       core.setFailed(error.message);
